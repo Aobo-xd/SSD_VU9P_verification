@@ -63,10 +63,10 @@ for i in range (lvdata_len):
 #数据的存储方式 
 print(len(result_weight))
 count=0
-for m in range(16): #
-	for s in range(32):#
-		for k in range (256):#256
-			count=count+1
+for m in range(16): #channel_out*8/channel_in
+	for s in range(32):# channel_in/8
+		for k in range (256):#channel_in
+			count=count+1   # k+m*channel_in+s*channel_out*8
 			print(count,k+m*256+s*4096,result_weight[k+m*256+s*4096])
 			savetxt.write(result_weight[k+m*256+s*4096])
 			if ((k+1)%8==0):
