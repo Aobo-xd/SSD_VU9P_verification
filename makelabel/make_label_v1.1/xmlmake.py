@@ -1,0 +1,86 @@
+import glob
+import  os
+from PIL import Image, ImageTk
+s1="""    <object>
+        <name>{0}</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>{1}</xmin>
+            <ymin>{2}</ymin>
+            <xmax>{3}</xmax>
+            <ymax>{4}</ymax>
+        </bndbox>
+    </object>"""
+
+s2="""<annotation>
+    <folder>VOC2007</folder>
+    <filename>{0}</filename>
+    <source>
+        <database>My Database</database>
+        <annotation>VOC2007</annotation>
+        <image>flickr</image>
+        <flickrid>NULL</flickrid>
+    </source>
+    <owner>
+        <flickrid>NULL</flickrid>
+        <name>LK</name>
+    </owner>
+    <size>
+        <width>{1}</width>
+        <height>{2}</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>{3}</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>{4}</xmin>
+            <ymin>{5}</ymin>
+            <xmax>{6}</xmax>
+            <ymax>{7}</ymax>
+        </bndbox>
+    </object>{8}
+</annotation>
+"""
+
+textlist=glob.glob('G:/tset/dataset/all/Annotation/labels1\\*.txt')
+
+for text_ in textlist:
+    print text_
+    filename=os.path.split(text_)[-1].split('.')[0]
+    imgname=filename+".jpg"
+    picturepath="G:/tset/dataset/all/JPEGImages\\"+imgname
+    print picturepath
+
+    pil_image = Image.open(picturepath)
+    w0,h0=pil_image.size
+    savename="G:/tset/dataset/all\Annotation/xml\\"+filename+".xml"
+    print savename
+
+    flabel = open(text_, 'r')
+    lb = flabel.readlines()
+    flabel.close()
+    ob2 = ""
+    if len(lb)<1:
+        continue  # no annotation
+    x1=lb[0].split(' ')
+    print x1
+    x2 = [i for i in x1]
+    if len(lb)>1:  # extra annotation
+        for i in range(1,len(lb)):
+            y1 = lb[i].split(' ')
+            y2 = [i for i in y1]
+            ob2+='\n' + s1.format(y2[4].strip('\n'),y2[0],y2[1],y2[2],y2[3])
+   # imgname=('%06d' % (int(text_[13:-4])))+'.jpg'
+  #  savename='Annotations\\'+str('%06d' % (int(text_[13:-4])))+'.xml'
+    print imgname,savename
+    f = open(savename, 'w')
+    print x2
+    ob1=s2.format(imgname,w0,h0, x2[4].strip('\n'), x2[0],x2[1],x2[2],x2[3],ob2)
+    f.write(ob1)
+    f.close()
