@@ -1,6 +1,6 @@
 #coding:utf-8 
 #作用是将数据分为上下两个部分，按照每一行64位的模式进行存储 ，每32行表示256个数据
-lvtxt="./conv4_proj_weights.txt"
+lvtxt="./conv6_proj_weights.txt"
 save_1_txt="./weight16_1.dat"
 save_2_txt="./weight16_2.dat"
 save_txt="./weight16.dat"
@@ -9,8 +9,13 @@ save_txt="./weight16.dat"
 #save2txt = open(save_2_txt, 'w')  # 读取写入的文件
 savetxt = open(save_txt, 'w')  # 读取写入的文件
 
-CHANNELS=256
-OUT_CHANNELS=512
+CHANNELS=512
+OUT_CHANNELS=256
+WIDTH=12
+DEPTH=8
+
+
+
 PE_NUMBER=16
 
 lvresult = open(lvtxt)  # 从lvresult.txt 获取
@@ -60,26 +65,34 @@ for i in range (lvdata_len):
 
 
 
-#数据的存储方式 
-print(len(result_weight))
+# #数据的存储方式 
+# print(len(result_weight))
+# count=0
+# for m in range(OUT_CHANNELS*8/CHANNELS): #channel_out*8/channel_in
+# 	for s in range(CHANNELS/8):# channel_in/8
+# 		for k in range (CHANNELS):#channel_in
+# 			count=count+1   # k+m*channel_in+s*channel_out*8
+# 			print(count,k+m*CHANNELS+s*OUT_CHANNELS*8,result_weight[k+m*CHANNELS+s*OUT_CHANNELS*8])
+# 			savetxt.write(result_weight[k+m*CHANNELS+s*OUT_CHANNELS*8])
+# 			if ((k+1)%8==0):
+# 				savetxt.write("\n")
+# 			# if(m<8):
+# 			# 	save1txt.write(result_weight[k+m*256+s*4096])
+# 			# 	if ((k+1)%8==0):
+# 			# 		save1txt.write("\n")
+# 			# elif(m>=8)&(m<16):
+# 			# 	save2txt.write(result_weight[k+m*256+s*4096])
+# 			# 	if ((k+1)%8==0):
+# 			# 		save2txt.write("\n")
+
 count=0
-for m in range(16): #channel_out*8/channel_in
-	for s in range(32):# channel_in/8
-		for k in range (256):#channel_in
-			count=count+1   # k+m*channel_in+s*channel_out*8
-			print(count,k+m*256+s*4096,result_weight[k+m*256+s*4096])
-			savetxt.write(result_weight[k+m*256+s*4096])
+for m in range(16): #分为16个权值的读写的范围供其使用
+	for s in range(OUT_CHANNELS/16):
+		for k in range(CHANNELS): #128
+			count=count+1
+			print(count,k+m*CHANNELS+s*CHANNELS*16,result_weight[k+m*CHANNELS+s*CHANNELS*16])
+ 			savetxt.write(result_weight[k+m*CHANNELS+s*CHANNELS*16])
 			if ((k+1)%8==0):
-				savetxt.write("\n")
-			# if(m<8):
-			# 	save1txt.write(result_weight[k+m*256+s*4096])
-			# 	if ((k+1)%8==0):
-			# 		save1txt.write("\n")
-			# elif(m>=8)&(m<16):
-			# 	save2txt.write(result_weight[k+m*256+s*4096])
-			# 	if ((k+1)%8==0):
-			# 		save2txt.write("\n")
-
-
+ 				savetxt.write("\n")
 
 

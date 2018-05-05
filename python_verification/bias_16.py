@@ -1,6 +1,7 @@
+#coding:utf-8 
 #作用是将bias 划分为16进制的数据
 
-lvtxt="./conv4_proj_bias.txt"
+lvtxt="./conv6_proj_bias.txt"
 save_txt="./bias_16.dat"
 
 

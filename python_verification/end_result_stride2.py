@@ -44,8 +44,8 @@ for i in range(WIDTH>>1): #24
 			bias = [(t2.strip()) for t2 in bias_data[m].split()]
 			sum_temp=0
 			for k in range(CHANNELS_IN): #256
-				fmap_1 = [(t1.strip()) for t1 in input_data_1[k+(j+i*8)*256].split()]
-				weight=[(t2.strip()) for t2 in weight_data[k+m*256].split()]
+				fmap_1 = [(t1.strip()) for t1 in input_data_1[k+(j+i*HIGHT>>2)*CHANNELS_IN].split()]
+				weight=[(t2.strip()) for t2 in weight_data[k+m*CHANNELS_IN].split()]
 				sum_temp=sum_temp+int(fmap_1[0])*int(weight[0])
 				# if(j==1)&(m==8):
 				# 	print(fmap_1,weight,int(fmap_1[0])*int(weight[0]))
@@ -72,10 +72,10 @@ for i in range(WIDTH>>1):
 			bias = [(t2.strip()) for t2 in bias_data[m].split()]
 			for k in range(CHANNELS_IN): #256
 				#print("fmap",k+j*256+i*256*8)
-				fmap_2 = [(t1.strip()) for t1 in input_data_2[k+(j+i*8)*256].split()]
+				fmap_2 = [(t1.strip()) for t1 in input_data_2[k+(j+i*HIGHT>>2)*CHANNELS_IN].split()]
 				#print(int(fmap_1[0]))
 				#print("weight",k+m*256)
-				weight=[(t2.strip()) for t2 in weight_data[k+m*256].split()]
+				weight=[(t2.strip()) for t2 in weight_data[k+m*CHANNELS_IN].split()]
 				sum_temp=sum_temp+int(fmap_2[0])*int(weight[0])
 			# 	if(j==1)&(m==1):
 			# 		print(fmap_2,weight)
