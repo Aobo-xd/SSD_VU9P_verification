@@ -1,6 +1,6 @@
 # SSD_VU9P_verification
 西安电子科技大学
-刘凯教授科研团队推介
+刘凯教授科研团队
 刘凯
 138-9281-0532
 kailiu@mail.xidian.eud.cn
